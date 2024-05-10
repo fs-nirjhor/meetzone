@@ -1,11 +1,7 @@
-import {
-  SignInButton,
-  SignOutButton,
-  SignedIn,
-  SignedOut,
-  UserButton,
-  UserProfile,
-} from "@clerk/nextjs";
+import RightSideBar from "@components/rightSideBar/RightSideBar";
+import LeftSideBar from "@components/leftSideBar/LeftSideBar";
+import BottomBar from "@components/bottomBar/BottomBar";
+import TopBar from "@components/topBar/TopBar";
 
 export const metadata = {
   title: "Home",
@@ -14,18 +10,16 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <main>
-      <header>
-        <SignedOut>
-          <SignInButton />
-        </SignedOut>
-        <SignedIn>
-          <UserButton />
-          {/* <UserProfile /> */}
-          {/* <SignOutButton /> */}
-        </SignedIn>
-      </header>
-      {children}
+    <main className="h-screen flex flex-col justify-between">
+      <section className="flex justify-between">
+        <RightSideBar />
+        <div>
+          <TopBar />
+          {children}
+        </div>
+        <LeftSideBar />
+      </section>
+      <BottomBar />
     </main>
   );
 }

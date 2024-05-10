@@ -4,7 +4,7 @@
 
 /* Clerk Auth forms */
 .cl-formButtonPrimary {
-  @apply bg-purple-1;
+  @apply bg-purple-1 px-2 rounded-md;
 }
 
 .cl-formButtonPrimary:hover {

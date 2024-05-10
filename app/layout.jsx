@@ -14,7 +14,15 @@ const inter = Inter({ subsets: ["latin"] });
 
 export default function RootLayout({ children }) {
   return (
-    <ClerkProvider>
+    <ClerkProvider
+      appearance={{
+        layout: {
+          socialButtonsPlacement: "top", // or 'bottom',
+          socialButtonsVariant: "blockButton", // or 'iconButton',
+          animations: true,
+        },
+      }}
+    >
       <html lang="en">
         <body className={`${inter.className} bg-purple-2 text-white`}>
           {children}
