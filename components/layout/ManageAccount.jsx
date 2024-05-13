@@ -11,7 +11,7 @@ const ManageAccount = () => {
   return (
     <section className="text-light-1 text-body-bold">
       <SignedOut>
-        <SignInButton className="cl-formButtonPrimary w-full py-3" />
+        <SignInButton className="cl-formButtonPrimary w-full py-2" />
       </SignedOut>
       <SignedIn>
         <label className="flex gap-4 items-center mb-3">

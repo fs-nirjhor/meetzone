@@ -25,6 +25,10 @@
     height: 3px;
     border-radius: 2px;
   }
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: theme("colors.purple-1");
+    border-radius: 5px;
+  }
 }
 
 /* Profile Info */

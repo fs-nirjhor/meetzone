@@ -1,7 +1,7 @@
 import RightSideBar from "@components/layout/RightSideBar";
 import LeftSideBar from "@components/layout/LeftSideBar";
 import BottomBar from "@components/layout/BottomBar";
-import TopBar from "@components/layout/TopBar";
+import MainContainer from "@components/MainContainer";
 
 export const metadata = {
   title: "Home",
@@ -13,10 +13,7 @@ export default function RootLayout({ children }) {
     <main className="h-screen flex flex-col justify-between">
       <section className="flex justify-between">
         <LeftSideBar />
-        <div>
-          <TopBar />
-          {children}
-        </div>
+        <MainContainer>{children}</MainContainer>
         <RightSideBar />
       </section>
       <BottomBar />
