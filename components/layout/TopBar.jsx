@@ -6,6 +6,7 @@ import {
   SignedOut,
   UserButton,
 } from "@clerk/nextjs";
+import Link from "next/link";
 
 const TopBar = () => {
   return (
@@ -17,7 +18,9 @@ const TopBar = () => {
         </button>
       </form>
       <button className="create-post-btn">
-        <Add /> Create Post
+        <Link href="/create-post">
+          <Add /> Create Post
+        </Link>
       </button>
       <section className="flex text-light-1 text-body-bold max-md:hidden">
         <SignedOut>
