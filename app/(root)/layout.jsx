@@ -10,7 +10,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <main className="h-screen flex flex-col justify-between">
+    <main>
       <section className="flex justify-between">
         <LeftSideBar />
         <MainContainer>{children}</MainContainer>
