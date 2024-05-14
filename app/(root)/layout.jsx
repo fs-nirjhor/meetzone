@@ -1,7 +1,7 @@
 import RightSideBar from "@components/layout/RightSideBar";
 import LeftSideBar from "@components/layout/LeftSideBar";
 import BottomBar from "@components/layout/BottomBar";
-import MainContainer from "@components/MainContainer";
+import MainContainer from "@components/layout/MainContainer";
 
 export const metadata = {
   title: "Home",
