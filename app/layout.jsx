@@ -1,7 +1,8 @@
+import { Analytics } from "@vercel/analytics/react";
 import { Inter } from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
-import "./globals.css";
 import { dark } from "@clerk/themes";
+import "./globals.css";
 
 export const metadata = {
   title: {
@@ -30,6 +31,7 @@ export default function RootLayout({ children }) {
           className={`${inter.className} bg-purple-2 text-light-1 custom-scrollbar`}
         >
           {children}
+          <Analytics />
         </body>
       </html>
     </ClerkProvider>
