@@ -2,13 +2,17 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Clerk Auth forms */
-.cl-formButtonPrimary {
+
+.myBtn {
   @apply bg-purple-1 px-2 rounded-md;
 }
-
-.cl-formButtonPrimary:hover {
+.myBtn:hover {
   @apply bg-pink-1;
+}
+
+/* Clerk Auth forms */
+.cl-formButtonPrimary {
+  @apply myBtn;
 }
 
 .cl-footerActionLink {
