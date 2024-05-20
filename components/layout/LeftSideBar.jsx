@@ -12,7 +12,7 @@ const LeftSideBar = () => {
           src="/assets/logo.png"
           alt="logo"
           width={200}
-          height={200}
+          height={50}
           className="mx-auto"
         />
       </Link>
