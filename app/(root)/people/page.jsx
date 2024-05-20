@@ -1,5 +1,4 @@
 const People = () => {
-    return <div>People</div>;
-  };
-  export default People;
-  
+  return <div>People</div>;
+};
+export default People;
