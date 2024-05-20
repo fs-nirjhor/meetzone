@@ -11,7 +11,7 @@ const Heading = () => {
   const title = pageTitles.find((page) => page.url === firstPath)?.title || "";
 
   return (
-    <h1 className="mt-5 text-heading1-bold max-sm:text-heading2-bold text-light-1">
+    <h1 className="my-5 text-heading1-bold max-sm:text-heading2-bold text-light-1">
       {title}
     </h1>
   );
