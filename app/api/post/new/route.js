@@ -1,4 +1,4 @@
-import { createPost } from "@lib/actions/post";
+import { createPost, updatePost } from "@lib/actions/post";
 import { NextResponse } from "next/server";
 import path from "path";
 import { writeFile } from "fs/promises";
