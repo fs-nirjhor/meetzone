@@ -1,4 +1,4 @@
 const Posts = () => {
-  return <div>Posts</div>;
+  return <div>Profile Posts</div>;
 };
 export default Posts;
