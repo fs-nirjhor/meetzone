@@ -2,6 +2,7 @@ import { Analytics } from "@vercel/analytics/react";
 import { Inter } from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
 import { dark } from "@clerk/themes";
+import ToastContainerWrapper from "@components/ToastContainerWrapper";
 import "./globals.css";
 
 export const metadata = {
@@ -32,6 +33,7 @@ export default function RootLayout({ children }) {
         >
           {children}
           <Analytics />
+          <ToastContainerWrapper />
         </body>
       </html>
     </ClerkProvider>

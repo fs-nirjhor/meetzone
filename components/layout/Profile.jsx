@@ -1,15 +1,19 @@
 "use client";
 
-import { useAuth } from "@clerk/nextjs";
-import Loading from "@components/Loading";
 import Image from "next/image";
+import Loading from "@components/Loading";
+//import { auth } from '@clerk/nextjs/server';
+//import { getUser } from "@lib/actions/user";
 import { useEffect, useState } from "react";
+import { useAuth } from "@clerk/nextjs";
 
 const Profile = () => {
+  //const { userId } = auth();
+  //const user = await getUser(userId);
+  //! fetch api and use client component is just for practice
   const { isLoaded, userId } = useAuth();
   const [user, setUser] = useState({});
   const [isLoading, setIsLoading] = useState(true);
-  //const user = await getUser(userId);
   const getUser = async () => {
     try {
       const response = await fetch(`/api/user/${userId}`);

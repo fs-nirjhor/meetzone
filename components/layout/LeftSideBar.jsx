@@ -13,7 +13,7 @@ const LeftSideBar = () => {
           alt="logo"
           width={200}
           height={50}
-          className="mx-auto"
+          className="mx-auto w-auto h-auto"
         />
       </Link>
       <Profile />
