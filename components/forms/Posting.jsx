@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
-const Posting = ({ post, apiEndpoint }) => {
+const Posting = ({ post, apiEndpoint, method }) => {
   const {
     register,
     handleSubmit,
@@ -33,15 +33,15 @@ const Posting = ({ post, apiEndpoint }) => {
       }
 
       const response = await fetch(apiEndpoint, {
-        method: "POST",
+        method: method,
         body: postForm,
       });
 
       if (response.ok) {
-        toast.success("Post created successfully");
+        toast.success("Post successfully");
         router.push(`/profile/${data.creator}/posts`);
       } else {
-        toast.error(response.statusText);
+        toast.error("Failed to post");
       }
     } catch (err) {
       toast.error(err.message);
@@ -91,7 +91,13 @@ const Posting = ({ post, apiEndpoint }) => {
           id="postPhoto"
           accept="image/*"
           className="hidden"
-          {...register("postPhoto", { required: "Photo is required" })}
+          {...register("postPhoto", {
+            validate: (value) => {
+              if (value === "" || value === null || value === undefined) {
+                return "Photo is required";
+              }
+            },
+          })}
         />
         {errors?.postPhoto && (
           <p className="text-red-500">{errors?.postPhoto?.message} </p>

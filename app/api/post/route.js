@@ -1,7 +1,21 @@
-import { createPost, updatePost } from "@lib/actions/post";
+import { getFeedPost } from "@lib/actions/post";
 import { NextResponse } from "next/server";
+import { createPost } from "@lib/actions/post";
 import path from "path";
 import { writeFile } from "fs/promises";
+
+export const GET = async (request) => {
+  try {
+    const post = await getFeedPost();
+    return new NextResponse(JSON.stringify(post), {
+      status: 200,
+    });
+  } catch (error) {
+    return new NextResponse(error.message, {
+      status: 500,
+    });
+  }
+};
 
 export const POST = async (request) => {
   const currentWorkingDirectory = process.cwd();

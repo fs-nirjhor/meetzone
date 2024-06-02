@@ -36,7 +36,7 @@ const CreatePost = () => {
     <Loading />
   ) : (
     <div className="pt-6">
-      <Posting post={postData} apiEndpoint={"/api/post/new"} />
+      <Posting post={postData} apiEndpoint="/api/post" method="POST" />
     </div>
   );
 };
