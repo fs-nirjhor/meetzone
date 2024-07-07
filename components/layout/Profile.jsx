@@ -40,7 +40,9 @@ const Profile = () => {
         height={50}
         className="rounded-full mx-auto"
       />
-      <p className="text-small-bold text-light-1 text-center">{`${user?.firstName} ${user?.lastName}`}</p>
+      <p className="text-light-1 text-small-semibold flex gap-1">
+        <span>{user.firstName}</span> <span>{user.lastName}</span>
+      </p>
       <div className="flex justify-between text-center">
         <div>
           <span className="text-base-bold">{user?.posts?.length}</span>

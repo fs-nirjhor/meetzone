@@ -17,7 +17,6 @@ export const GET = async (request, { params }) => {
 };
 
 export const PUT = async (request, { params }) => {
-  console.log("first");
   try {
     const data = await request.formData();
     let postPhoto = data.get("postPhoto");

@@ -9,23 +9,29 @@ const EditPost = ({ params }) => {
 
   const [postData, setPostData] = useState({});
 
+  useEffect(() => {
   const getPost = async () => {
     const response = await fetch(`/api/post/${params?.id}`);
     const data = await response.json();
     setPostData(data);
     setLoading(false);
   };
- 
-  useEffect(() => {
-    getPost();
-  }, []);
+   getPost();
+  }, [params?.id]);
+
+  const postInfo = {
+    creator: postData?.creator?._id,
+    caption: postData?.caption,
+    tag: postData?.tag,
+    postPhoto: postData?.postPhoto,
+  };
 
   return loading ? (
     <Loading />
   ) : (
     <div className="pt-6">
       <Posting
-        post={postData}
+        post={postInfo}
         apiEndpoint={`/api/post/${params?.id}`}
         method="PUT"
       />
