@@ -55,6 +55,7 @@ export async function POST(req) {
       await createOrUpdateUser(evt?.data);
       return new Response("Request successful", { status: 200 });
     } catch (error) {
+      console.error(error.message);
       return new Response(error.message, { status: 400 });
     }
   }
@@ -63,6 +64,7 @@ export async function POST(req) {
       await deleteUser(evt?.data?.id);
       return new Response("Deleted successfully", { status: 200 });
     } catch (error) {
+      console.error(error.message);
       return new Response(error.message, { status: 400 });
     }
   }

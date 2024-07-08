@@ -2,17 +2,19 @@
 import PostCard from "@components/cards/PostCard";
 import UserCard from "@components/cards/UserCard";
 import Loading from "@components/Loading";
-import { useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function SearchPage() {
+  const router = useRouter()
+  const pathname = usePathname()
   const searchParams = useSearchParams();
-  const query = searchParams.get("q");
+  const query = searchParams.get("query");
+  const type = searchParams.get("type");
   const [isLoading, setIsLoading] = useState(false);
-  const [searchType, setSearchType] = useState("post");
   const [searchedPost, setSearchedPost] = useState([]);
   const [searchedUser, setSearchedUser] = useState([]);
-
+ 
   useEffect(() => {
     const getPosts = async () => {
       const response = await fetch(`/api/search/post/${query}`);
@@ -26,33 +28,33 @@ export default function SearchPage() {
       setSearchedUser(data);
       setIsLoading(false);
     };
-    searchType === "post" ? getPosts() : getUsers();
-  }, [query, searchType]);
+    type === "post" ? getPosts() : getUsers();
+  }, [query, type]);
 
   return (
     <main className="flex flex-col gap-5">
       <section className="flex gap-5 px-2">
         <button
-          className={`py-2.5 px-5 rounded-lg mt-10 bg-purple-1 hover:bg-opacity-80 text-light-1 ${searchType === "post" && "bg-pink-1"}`}
-          onClick={() => setSearchType("post")}
+          className={`py-2.5 px-5 rounded-lg mt-10 bg-dark-2 hover:bg-opacity-80 text-light-1 ${type === "post" && "bg-purple-1"}`}
+          onClick={() => router.push(`${pathname}?type=post&query=${query}`)}
         >
           Post
         </button>
         <button
-          className={`py-2.5 px-5 rounded-lg mt-10 bg-purple-1 hover:bg-opacity-80 text-light-1 ${searchType === "user" && "bg-pink-1"}`}
-          onClick={() => setSearchType("user")}
+          className={`py-2.5 px-5 rounded-lg mt-10 bg-dark-2 hover:bg-opacity-80 text-light-1 ${type === "people" && "bg-purple-1"}`}
+          onClick={() => router.push(`${pathname}?type=people&query=${query}`)}
         >
           People
         </button>
       </section>
 
       {isLoading ? <Loading /> : <section className="flex flex-col gap-5">
-        {searchType === "post" && (searchedPost.length === 0 ? (
+        {type === "post" && (searchedPost.length === 0 ? (
           <p className="mt-20 text-center">No Post Found</p>
         ) : (
           searchedPost.map((post) => <PostCard key={post._id} post={post} />)
         ))}
-        {searchType === "user" && (searchedUser.length === 0 ? (
+        {type === "people" && (searchedUser.length === 0 ? (
           <p className="mt-20 text-center">No User Found</p>
         ) : (
           searchedUser.map((user) => <UserCard key={user._id} userData={user} />)

@@ -16,9 +16,9 @@ const TopBar = () => {
   const router = useRouter();
   return (
     <header className="flex justify-between items-center gap-3 py-3">
-      <div className="relative">
+      <div className="relative grow">
         <input type="text" placeholder="Search post, people..." className="search-bar" defaultValue={query} onChange={(e) => setQuery(e.target.value)} />
-        <button type="button" className="search-icon" onClick={() => router.push(`/search?q=${query}`)}>
+        <button type="button" className="search-icon" onClick={() => router.push(`/search?type=post&query=${query}`)}>
           <Search />
         </button>
       </div>

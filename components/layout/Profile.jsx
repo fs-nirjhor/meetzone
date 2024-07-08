@@ -6,6 +6,7 @@ import Loading from "@components/Loading";
 //import { getUser } from "@lib/actions/user";
 import { useEffect, useState } from "react";
 import { useAuth } from "@clerk/nextjs";
+import { useRouter } from "next/navigation";
 
 const Profile = () => {
   //const { userId } = auth();
@@ -14,19 +15,20 @@ const Profile = () => {
   const { isLoaded, userId } = useAuth();
   const [user, setUser] = useState({});
   const [isLoading, setIsLoading] = useState(true);
-  const getUser = async () => {
-    try {
-      const response = await fetch(`/api/user/${userId}`);
-      const data = await response.json();
-      setUser(data);
-    } catch (error) {
-      console.error(error.message);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  const router = useRouter();
   useEffect(() => {
-    getUser();
+    const getUser = async () => {
+      try {
+        const response = await fetch(`/api/user/${userId}`);
+        const data = await response.json();
+        setUser(data);
+      } catch (error) {
+        console.error(error.message);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    userId && getUser();
   }, [userId]);
 
   return !isLoaded || isLoading ? (
@@ -39,8 +41,9 @@ const Profile = () => {
         width={50}
         height={50}
         className="rounded-full mx-auto"
+        onClick={() => router.push(`/profile/${user.clerkId}`)}
       />
-      <p className="text-light-1 text-small-semibold flex gap-1">
+      <p className="text-light-1 text-small-semibold flex gap-1 justify-center">
         <span>{user.firstName}</span> <span>{user.lastName}</span>
       </p>
       <div className="flex justify-between text-center">

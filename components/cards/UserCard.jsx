@@ -2,12 +2,16 @@
 import { useAuth } from "@clerk/nextjs";
 import { PersonAddAlt, PersonRemove } from "@mui/icons-material";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 export default function UserCard({ userData }) {
   const { isLoaded, userId } = useAuth();
   const [currentUser, setCurrentUser] = useState({});
   const [isLoading, setIsLoading] = useState(true);
+  const router = useRouter();
+
   useEffect(() => {
     const getUser = async () => {
       try {
@@ -26,6 +30,20 @@ export default function UserCard({ userData }) {
     (u) => u._id === userData._id
   );
 
+  const handleFollow = async () => {
+    try {
+      const response = await fetch(`/api/user/${currentUser._id}/follow/${userData._id}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      !response.ok && toast.error(response.statusText);
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
+
   return (
     <div className="flex justify-between items-center px-3 py-2.5">
       <figure className="flex gap-3 items-center">
@@ -33,8 +51,9 @@ export default function UserCard({ userData }) {
           src={userData.profilePhoto}
           width={50}
           height={50}
-          alt={userData.userDataname}
+          alt={userData.useraname}
           className="rounded-full"
+          onClick={() => router.push(`/profile/${userData.clerkId}`)}
         />
         <div className="flex flex-col gap-1">
           <p className="text-light-1 text-small-semibold flex gap-1">
@@ -49,9 +68,9 @@ export default function UserCard({ userData }) {
         (!isLoaded || isLoading ? (
           <div className="mySpinner h-3 w-3" />
         ) : isFollowing ? (
-          <PersonRemove className="text-purple-1 cursor-pointer" />
+          <PersonRemove className="text-purple-1 cursor-pointer" onClick={handleFollow} />
         ) : (
-          <PersonAddAlt className="text-purple-1 cursor-pointer" />
+          <PersonAddAlt className="text-purple-1 cursor-pointer" onClick={handleFollow} />
         ))}
     </div>
   );

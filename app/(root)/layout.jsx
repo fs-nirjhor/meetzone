@@ -11,7 +11,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <main>
-      <section className="flex justify-between mb-20">
+      <section className="flex justify-between gap-6 mb-20">
         <LeftSideBar />
         <MainContainer>{children}</MainContainer>
         <RightSideBar />

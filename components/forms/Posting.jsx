@@ -39,7 +39,7 @@ const Posting = ({ post, apiEndpoint, method }) => {
 
       if (response.ok) {
         toast.success("Post successfully");
-        router.push(`/profile/${data.creator}/posts`);
+        router.push(`/profile/${data.creator}?tab=posts`);
       } else {
         toast.error("Failed to post");
       }
