@@ -24,7 +24,7 @@ const Home = () => {
   ) : (
     <section className="flex flex-col gap-5">
       {postsData.map((post) => (
-        <PostCard key={post._id} post={post} />
+        <PostCard key={post._id} postData={post} />
       ))}
     </section>
   );

@@ -52,7 +52,7 @@ export default function SearchPage() {
         {type === "post" && (searchedPost.length === 0 ? (
           <p className="mt-20 text-center">No Post Found</p>
         ) : (
-          searchedPost.map((post) => <PostCard key={post._id} post={post} />)
+          searchedPost.map((post) => <PostCard key={post._id} postData={post} />)
         ))}
         {type === "people" && (searchedUser.length === 0 ? (
           <p className="mt-20 text-center">No User Found</p>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useUser } from "@clerk/nextjs";
+import { useAuth } from "@clerk/nextjs";
 import Loading from "@components/Loading";
 import {
   Bookmark,
@@ -11,13 +11,54 @@ import {
 } from "@mui/icons-material";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
-const PostCard = ({ post }) => {
-  const { user, isLoaded } = useUser();
-  const [isLiked, setIsLiked] = useState(false);
+const PostCard = ({ postData }) => {
+  const { isLoaded, userId } = useAuth();
+  const [user, setUser] = useState({});
+  const [post, setPost] = useState(postData);
+  const [isLoading, setIsLoading] = useState(true);
   const [isSaved, setIsSaved] = useState(false);
-  return !isLoaded ? (
+  
+    useEffect(() => {
+      const getUser = async () => {
+        try {
+          const response = await fetch(`/api/user/${userId}`);
+          const data = await response.json();
+          setUser(data);
+        } catch (error) {
+          toast.error(error.message);
+        } finally {
+          setIsLoading(false);
+        }
+      };
+      getUser();
+    }, [userId]);
+
+  const isLiked = post?.likes.includes(user?._id);
+
+  const handleLike = async () => {
+      try {
+        const response = await fetch(`/api/post/${post?._id}/like/${user?._id}`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        const data = await response.json();
+        
+        if (response.ok) {
+          setPost(data);
+        } else {
+          toast.error(response.statusText);
+        }
+      } catch (error) {
+        toast.error(error.message);
+      }
+    };
+
+  return !isLoaded || isLoading ? (
     <Loading />
   ) : (
     <article className="flex flex-col bg-dark-1 rounded-lg p-3 gap-5">
@@ -59,7 +100,7 @@ const PostCard = ({ post }) => {
       <div className="flex justify-between items-center">
         <p
           className="flex items-center gap-1"
-          onClick={() => setIsLiked(!isLiked)}
+          onClick={handleLike}
         >
           {isLiked ? (
             <Favorite sx={{ color: "red" }} />

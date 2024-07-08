@@ -63,7 +63,7 @@ const Profile = () => {
           ? (profileData?.followers?.length === 0 ? <p className="text-center text-base-bold text-light-1 mt-6">No followers</p> : profileData?.followers?.map((user) => (
               <UserCard key={user._id} user={user} />
             )))
-          : (profileData?.posts?.length === 0 ? <p className="text-center text-base-bold text-light-1 mt-6">No posts</p> : profileData?.posts?.map((post) => <PostCard key={post._id} post={post} />))}
+          : (profileData?.posts?.length === 0 ? <p className="text-center text-base-bold text-light-1 mt-6">No posts</p> : profileData?.posts?.map((post) => <PostCard key={post._id} postData={post} />))}
       </section>
     </main>
   );
