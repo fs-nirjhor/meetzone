@@ -19,7 +19,6 @@ const PostCard = ({ postData }) => {
   const [user, setUser] = useState({});
   const [post, setPost] = useState(postData);
   const [isLoading, setIsLoading] = useState(true);
-  const [isSaved, setIsSaved] = useState(false);
   
     useEffect(() => {
       const getUser = async () => {
@@ -36,7 +35,8 @@ const PostCard = ({ postData }) => {
       getUser();
     }, [userId]);
 
-  const isLiked = post?.likes.includes(user?._id);
+  const isLiked = post?.likes?.includes(user?._id);
+  const isSaved = user?.savedPosts?.includes(post?._id);
 
   const handleLike = async () => {
       try {
@@ -50,6 +50,25 @@ const PostCard = ({ postData }) => {
         
         if (response.ok) {
           setPost(data);
+        } else {
+          toast.error(response.statusText);
+        }
+      } catch (error) {
+        toast.error(error.message);
+      }
+    };
+  const handleSave = async () => {
+      try {
+        const response = await fetch(`/api/post/${post?._id}/save/${user?._id}`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        const data = await response.json();
+        
+        if (response.ok) {
+          setUser(data);
         } else {
           toast.error(response.statusText);
         }
@@ -109,9 +128,9 @@ const PostCard = ({ postData }) => {
           )}
           <span className="text-light-1">{post?.likes?.length || 0}</span>
         </p>
-        <p onClick={() => setIsSaved(!isSaved)}>
+        <p onClick={handleSave}>
           {isSaved ? (
-            <Bookmark sx={{ color: "red" }} />
+            <Bookmark className="text-purple-1" />
           ) : (
             <BookmarkBorder sx={{ color: "white" }} />
           )}
