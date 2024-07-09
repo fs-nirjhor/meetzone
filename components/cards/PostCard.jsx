@@ -19,6 +19,7 @@ const PostCard = ({ postData }) => {
   const [user, setUser] = useState({});
   const [post, setPost] = useState(postData);
   const [isLoading, setIsLoading] = useState(true);
+  const [refreshCount, setRefreshCount] = useState(0);
 
   useEffect(() => {
     const getUser = async () => {
@@ -33,7 +34,7 @@ const PostCard = ({ postData }) => {
       }
     };
     getUser();
-  }, [userId]);
+  }, [userId, refreshCount]);
 
   const handleLike = async () => {
     try {
@@ -47,6 +48,7 @@ const PostCard = ({ postData }) => {
 
       if (response.ok) {
         setPost(data);
+        setRefreshCount(refreshCount + 1);
       } else {
         toast.error(response.statusText);
       }
@@ -62,10 +64,8 @@ const PostCard = ({ postData }) => {
           "Content-Type": "application/json",
         },
       });
-      const data = await response.json();
-
       if (response.ok) {
-        setUser(data);
+        setRefreshCount(refreshCount + 1);
       } else {
         toast.error(response.statusText);
       }
@@ -74,7 +74,9 @@ const PostCard = ({ postData }) => {
     }
   };
 
-  const isLiked = post?.likes?.includes(user?._id);
+  const isLiked = user?.likedPosts?.find(
+    (likedPost) => likedPost?._id === post?._id
+  )
   const isSaved = user?.savedPosts?.find(
     (savedPost) => savedPost?._id === post?._id
   );

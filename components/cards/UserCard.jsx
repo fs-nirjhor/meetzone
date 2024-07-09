@@ -27,6 +27,7 @@ export default function UserCard({ userData }) {
     };
     getUser();
   }, [userId, refreshCount]);
+  
   const isFollowing = currentUser?.following?.find(
     (u) => u._id === userData._id
   );
