@@ -19,63 +19,65 @@ const PostCard = ({ postData }) => {
   const [user, setUser] = useState({});
   const [post, setPost] = useState(postData);
   const [isLoading, setIsLoading] = useState(true);
-  
-    useEffect(() => {
-      const getUser = async () => {
-        try {
-          const response = await fetch(`/api/user/${userId}`);
-          const data = await response.json();
-          setUser(data);
-        } catch (error) {
-          toast.error(error.message);
-        } finally {
-          setIsLoading(false);
-        }
-      };
-      getUser();
-    }, [userId]);
 
-  const isLiked = post?.likes?.includes(user?._id);
-  const isSaved = user?.savedPosts?.includes(post?._id);
+  useEffect(() => {
+    const getUser = async () => {
+      try {
+        const response = await fetch(`/api/user/${userId}`);
+        const data = await response.json();
+        setUser(data);
+      } catch (error) {
+        toast.error(error.message);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    getUser();
+  }, [userId]);
 
   const handleLike = async () => {
-      try {
-        const response = await fetch(`/api/post/${post?._id}/like/${user?._id}`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-        const data = await response.json();
-        
-        if (response.ok) {
-          setPost(data);
-        } else {
-          toast.error(response.statusText);
-        }
-      } catch (error) {
-        toast.error(error.message);
+    try {
+      const response = await fetch(`/api/post/${post?._id}/like/${user?._id}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const data = await response.json();
+
+      if (response.ok) {
+        setPost(data);
+      } else {
+        toast.error(response.statusText);
       }
-    };
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
   const handleSave = async () => {
-      try {
-        const response = await fetch(`/api/post/${post?._id}/save/${user?._id}`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-        const data = await response.json();
-        
-        if (response.ok) {
-          setUser(data);
-        } else {
-          toast.error(response.statusText);
-        }
-      } catch (error) {
-        toast.error(error.message);
+    try {
+      const response = await fetch(`/api/post/${post?._id}/save/${user?._id}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const data = await response.json();
+
+      if (response.ok) {
+        setUser(data);
+      } else {
+        toast.error(response.statusText);
       }
-    };
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
+
+  const isLiked = post?.likes?.includes(user?._id);
+  const isSaved = user?.savedPosts?.find(
+    (savedPost) => savedPost?._id === post?._id
+  );
 
   return !isLoaded || isLoading ? (
     <Loading />
@@ -117,10 +119,7 @@ const PostCard = ({ postData }) => {
         {post?.tag}
       </p>
       <div className="flex justify-between items-center">
-        <p
-          className="flex items-center gap-1"
-          onClick={handleLike}
-        >
+        <p className="flex items-center gap-1" onClick={handleLike}>
           {isLiked ? (
             <Favorite sx={{ color: "red" }} />
           ) : (
