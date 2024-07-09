@@ -1,33 +1,12 @@
-"use client";
-import Loading from "@components/Loading";
-import PostCard from "@components/cards/PostCard";
-import { useEffect, useState } from "react";
+import HomePage from "@components/layout/HomePage";
+
+export const metadata = {
+  title: "Home",
+  description: "Meetzone - The best meetups app in the world",
+};
 
 const Home = () => {
-  const [loading, setLoading] = useState(true);
-
-  const [postsData, setPostsData] = useState([]);
-
-  const getPosts = async () => {
-    const response = await fetch(`/api/post`);
-    const data = await response.json();
-    setPostsData(data);
-    setLoading(false);
-  };
-
-  useEffect(() => {
-    getPosts();
-  }, []);
-
-  return loading ? (
-    <Loading />
-  ) : (
-    <section className="flex flex-col gap-5">
-      {postsData.map((post) => (
-        <PostCard key={post._id} postData={post} />
-      ))}
-    </section>
-  );
+  return <HomePage />
 };
 
 export default Home;

@@ -3,11 +3,6 @@ import LeftSideBar from "@components/layout/LeftSideBar";
 import BottomBar from "@components/layout/BottomBar";
 import MainContainer from "@components/layout/MainContainer";
 
-export const metadata = {
-  title: "Home",
-  description: "Meetzone - The best meetups app in the world",
-};
-
 export default function RootLayout({ children }) {
   return (
     <main>
