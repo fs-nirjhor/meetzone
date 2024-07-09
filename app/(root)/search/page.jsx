@@ -11,7 +11,7 @@ export default function SearchPage() {
   const searchParams = useSearchParams();
   const query = searchParams.get("query");
   const type = searchParams.get("type");
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [searchedPost, setSearchedPost] = useState([]);
   const [searchedUser, setSearchedUser] = useState([]);
  
@@ -28,14 +28,14 @@ export default function SearchPage() {
       setSearchedUser(data);
       setIsLoading(false);
     };
-    type === "post" ? getPosts() : getUsers();
+    type === "people" ? getUsers() : getPosts();
   }, [query, type]);
 
   return (
     <main className="flex flex-col gap-5">
       <section className="flex gap-5 px-2">
         <button
-          className={`py-2.5 px-5 rounded-lg mt-10 bg-dark-2 hover:bg-opacity-80 text-light-1 ${type === "post" && "bg-purple-1"}`}
+          className={`py-2.5 px-5 rounded-lg mt-10 bg-dark-2 hover:bg-opacity-80 text-light-1 ${type !== "people" && "bg-purple-1"}`}
           onClick={() => router.push(`${pathname}?type=post&query=${query}`)}
         >
           Post
@@ -49,7 +49,7 @@ export default function SearchPage() {
       </section>
 
       {isLoading ? <Loading /> : <section className="flex flex-col gap-5">
-        {type === "post" && (searchedPost.length === 0 ? (
+        {type !== "people" && (searchedPost.length === 0 ? (
           <p className="mt-20 text-center">No Post Found</p>
         ) : (
           searchedPost.map((post) => <PostCard key={post._id} postData={post} />)

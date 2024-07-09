@@ -14,14 +14,18 @@ import { useRouter } from "next/navigation";
 const TopBar = () => {
   const [query, setQuery] = useState("");
   const router = useRouter();
+  const handleSearch = (e) => {
+    e.preventDefault();
+    router.push(`/search?query=${query}`);
+  }
   return (
     <header className="flex justify-between items-center gap-3 py-3">
-      <div className="relative grow">
+      <form className="relative grow" onSubmit={handleSearch}>
         <input type="text" placeholder="Search post, people..." className="search-bar" defaultValue={query} onChange={(e) => setQuery(e.target.value)} />
-        <button type="button" className="search-icon" onClick={() => router.push(`/search?type=post&query=${query}`)}>
+        <button className="search-icon">
           <Search />
         </button>
-      </div>
+      </form>
       <button className="create-post-btn">
         <Link href="/create-post">
           <Add /> Create Post
