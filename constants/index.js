@@ -54,8 +54,8 @@ export const pageTitles = [
     title: "Edit Post",
   },
   {
-    url: "/search",
-    title: "Search",
+    url: "/people",
+    title: "People",
   },
   {
     url: "/search",

@@ -10,6 +10,7 @@ import {
   useSearchParams,
 } from "next/navigation";
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 const Profile = () => {
   const router = useRouter();
@@ -19,20 +20,22 @@ const Profile = () => {
   const { id } = useParams();
   const [profileData, setProfileData] = useState({});
   const [isLoading, setIsLoading] = useState(true);
+
+  const getUser = async () => {
+    try {
+      const response = await fetch(`/api/user/${id}`);
+      const data = await response.json();
+      setProfileData(data);
+    } catch (error) {
+      toast.error(error.message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
   useEffect(() => {
-    const getUser = async () => {
-      try {
-        const response = await fetch(`/api/user/${id}`);
-        const data = await response.json();
-        setProfileData(data);
-      } catch (error) {
-        console.error(error.message);
-      } finally {
-        setIsLoading(false);
-      }
-    };
     getUser();
-  }, [id]);
+  },[id]);
+
   const tabList = ["posts", "followers", "following"];
 
   return isLoading ? (
@@ -57,13 +60,13 @@ const Profile = () => {
       <section className="flex flex-col gap-5">
         {tab === "following"
           ? (profileData?.following?.length === 0 ? <p className="text-center text-base-bold text-light-1 mt-6">No following</p> : profileData?.following?.map((user) => (
-            <UserCard key={user._id} user={user} />
+            <UserCard key={user._id} userData={user} update={getUser} />
           )))
           : tab === "followers"
           ? (profileData?.followers?.length === 0 ? <p className="text-center text-base-bold text-light-1 mt-6">No followers</p> : profileData?.followers?.map((user) => (
-              <UserCard key={user._id} user={user} />
+              <UserCard key={user._id} userData={user} update={getUser} />
             )))
-          : (profileData?.posts?.length === 0 ? <p className="text-center text-base-bold text-light-1 mt-6">No posts</p> : profileData?.posts?.map((post) => <PostCard key={post._id} postData={post} />))}
+          : (profileData?.posts?.length === 0 ? <p className="text-center text-base-bold text-light-1 mt-6">No posts</p> : profileData?.posts?.map((post) => <PostCard key={post._id} postData={post} update={getUser} />))}
       </section>
     </main>
   );

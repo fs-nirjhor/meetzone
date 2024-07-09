@@ -14,7 +14,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
-const PostCard = ({ postData }) => {
+const PostCard = ({ postData={}, update=() => {} }) => {
   const { isLoaded, userId } = useAuth();
   const [user, setUser] = useState({});
   const [post, setPost] = useState(postData);
@@ -56,6 +56,7 @@ const PostCard = ({ postData }) => {
       toast.error(error.message);
     }
   };
+  
   const handleSave = async () => {
     try {
       const response = await fetch(`/api/post/${post?._id}/save/${user?._id}`, {
