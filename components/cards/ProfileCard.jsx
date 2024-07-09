@@ -9,6 +9,7 @@ export default function ProfileCard({ profileData }) {
   const { isLoaded, userId } = useAuth();
   const [currentUser, setCurrentUser] = useState({});
   const [isLoading, setIsLoading] = useState(true);
+  const [refreshCount, setRefreshCount] = useState(0);
   
   useEffect(() => {
     const getUser = async () => {
@@ -23,20 +24,27 @@ export default function ProfileCard({ profileData }) {
       }
     };
     userId && getUser();
-  }, [userId]);
+  }, [userId, refreshCount]);
+
   const isFollowing = currentUser?.following?.find(
     (u) => u._id === profileData._id
   );
 
   const handleFollow = async () => {
     try {
-      const response = await fetch(`/api/user/${currentUser._id}/follow/${userData._id}`, {
+      setIsLoading(true);
+      const response = await fetch(`/api/user/${currentUser._id}/follow/${profileData._id}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
       });
-      !response.ok && toast.error(response.statusText);
+
+      if (response.ok) {
+        setRefreshCount(refreshCount + 1);
+      } else {
+        toast.error(response.statusText);
+      }
     } catch (error) {
       toast.error(error.message);
     }
