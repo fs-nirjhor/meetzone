@@ -1,4 +1,4 @@
-import { getSinglePost, updatePost } from "@lib/actions/post";
+import { deletePost, getSinglePost, updatePost } from "@lib/actions/post";
 import { writeFile } from "fs/promises";
 import { NextResponse } from "next/server";
 import path from "path";
@@ -10,8 +10,22 @@ export const GET = async (request, { params }) => {
       status: 200,
     });
   } catch (error) {
-    return new NextResponse(error.message, {
+    return new NextResponse(JSON.stringify(error), {
       status: 500,
+      statusText: error.message,
+    });
+  }
+};
+export const DELETE = async (request, { params }) => {
+  try {
+    const post = await deletePost(params?.id);
+    return new NextResponse(JSON.stringify(post), {
+      status: 200,
+    });
+  } catch (error) {
+    return new NextResponse(JSON.stringify(error), {
+      status: 500,
+      statusText: error.message,
     });
   }
 };
@@ -46,9 +60,9 @@ export const PUT = async (request, { params }) => {
       status: 200,
     });
   } catch (error) {
-    console.log(error.message);
-    return new NextResponse(error.message, {
+    return new NextResponse(JSON.stringify(error), {
       status: 500,
+      statusText: error.message
     });
   }
 };

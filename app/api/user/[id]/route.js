@@ -9,8 +9,9 @@ export const GET = async (request, { params }) => {
       status: 200,
     });
   } catch (error) {
-    return new NextResponse(error.message, {
+    return new NextResponse(JSON.stringify(error), {
       status: 500,
+      statusText: error.message
     });
   }
 };

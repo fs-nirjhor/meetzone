@@ -15,19 +15,20 @@ export default function SearchPage() {
   const [searchedPost, setSearchedPost] = useState([]);
   const [searchedUser, setSearchedUser] = useState([]);
  
+  const getPosts = async () => {
+    const response = await fetch(`/api/search/post/${query}`);
+    const data = await response.json();
+    setSearchedPost(data);
+    setIsLoading(false);
+  };
+  const getUsers = async () => {
+    const response = await fetch(`/api/search/user/${query}`);
+    const data = await response.json();
+    setSearchedUser(data);
+    setIsLoading(false);
+  };
+
   useEffect(() => {
-    const getPosts = async () => {
-      const response = await fetch(`/api/search/post/${query}`);
-      const data = await response.json();
-      setSearchedPost(data);
-      setIsLoading(false);
-    };
-    const getUsers = async () => {
-      const response = await fetch(`/api/search/user/${query}`);
-      const data = await response.json();
-      setSearchedUser(data);
-      setIsLoading(false);
-    };
     type === "people" ? getUsers() : getPosts();
   }, [query, type]);
 
@@ -52,12 +53,12 @@ export default function SearchPage() {
         {type !== "people" && (searchedPost.length === 0 ? (
           <p className="mt-20 text-center">No Post Found</p>
         ) : (
-          searchedPost.map((post) => <PostCard key={post._id} postData={post} />)
+          searchedPost.map((post) => <PostCard key={post._id} postData={post} update={getPosts} />)
         ))}
         {type === "people" && (searchedUser.length === 0 ? (
           <p className="mt-20 text-center">No User Found</p>
         ) : (
-          searchedUser.map((user) => <UserCard key={user._id} userData={user} />)
+          searchedUser.map((user) => <UserCard key={user._id} userData={user} update={getUsers} />)
         ))}
       </section>}
     </main>

@@ -11,8 +11,9 @@ export const GET = async (request) => {
       status: 200,
     });
   } catch (error) {
-    return new NextResponse(error.message, {
+    return new NextResponse(JSON.stringify(error), {
       status: 500,
+      statusText: error.message
     });
   }
 };
@@ -47,9 +48,9 @@ export const POST = async (request) => {
       status: 200,
     });
   } catch (error) {
-    console.log(error.message);
-    return new NextResponse(error.message, {
+    return new NextResponse(JSON.stringify(error), {
       status: 500,
+      statusText: error.message
     });
   }
 };

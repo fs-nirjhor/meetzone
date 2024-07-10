@@ -17,14 +17,14 @@ const HomePage = () => {
 
   useEffect(() => {
     getPosts();
-  }, []);
+  });
 
   return loading ? (
     <Loading />
   ) : (
     <section className="flex flex-col gap-5">
       {postsData.map((post) => (
-        <PostCard key={post._id} postData={post} />
+        <PostCard key={post._id} postData={post} update={getPosts} />
       ))}
     </section>
   );

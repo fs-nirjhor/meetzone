@@ -6,6 +6,7 @@ import {
   Bookmark,
   BookmarkBorder,
   BorderColor,
+  Delete,
   Favorite,
   FavoriteBorder,
 } from "@mui/icons-material";
@@ -17,7 +18,6 @@ import { toast } from "react-toastify";
 const PostCard = ({ postData={}, update=() => {} }) => {
   const { isLoaded, userId } = useAuth();
   const [user, setUser] = useState({});
-  const [post, setPost] = useState(postData);
   const [isLoading, setIsLoading] = useState(true);
   const [refreshCount, setRefreshCount] = useState(0);
 
@@ -38,17 +38,37 @@ const PostCard = ({ postData={}, update=() => {} }) => {
 
   const handleLike = async () => {
     try {
-      const response = await fetch(`/api/post/${post?._id}/like/${user?._id}`, {
+      const response = await fetch(`/api/post/${postData?._id}/like/${user?._id}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
       });
-      const data = await response.json();
 
       if (response.ok) {
-        setPost(data);
+        update();
         setRefreshCount(refreshCount + 1);
+      } else {
+        toast.error(response.statusText);
+      }
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
+  
+  const handleDelete = async () => {
+    try {
+      const response = await fetch(`/api/post/${postData?._id}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (response.ok) {
+        update();
+        setRefreshCount(refreshCount + 1);
+        toast.success("Post deleted successfully");
       } else {
         toast.error(response.statusText);
       }
@@ -59,7 +79,7 @@ const PostCard = ({ postData={}, update=() => {} }) => {
   
   const handleSave = async () => {
     try {
-      const response = await fetch(`/api/post/${post?._id}/save/${user?._id}`, {
+      const response = await fetch(`/api/post/${postData?._id}/save/${user?._id}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -76,10 +96,10 @@ const PostCard = ({ postData={}, update=() => {} }) => {
   };
 
   const isLiked = user?.likedPosts?.find(
-    (likedPost) => likedPost?._id === post?._id
+    (likedPost) => likedPost?._id === postData?._id
   )
   const isSaved = user?.savedPosts?.find(
-    (savedPost) => savedPost?._id === post?._id
+    (savedPost) => savedPost?._id === postData?._id
   );
 
   return !isLoaded || isLoading ? (
@@ -89,37 +109,37 @@ const PostCard = ({ postData={}, update=() => {} }) => {
       <section className="flex justify-between items-center">
         <div className="flex items-center gap-3">
           <Image
-            src={post?.creator?.profilePhoto}
+            src={postData?.creator?.profilePhoto}
             alt="avatar"
             width={50}
             height={50}
             className="rounded-full"
           />
           <div className="flex flex-col gap-1">
-            <p className="text-small-semibold text-light-1">{`${post?.creator?.firstName} ${post?.creator?.lastName}`}</p>
+            <p className="text-small-semibold text-light-1">{`${postData?.creator?.firstName} ${postData?.creator?.lastName}`}</p>
             <p className="text-subtle-medium text-light-3">
-              @{post?.creator?.username}
+              @{postData?.creator?.username}
             </p>
           </div>
         </div>
-        {user?.id === post?.creator?.clerkId && (
-          <Link href={`/edit-post/${post?._id}`}>
+        {userId === postData?.creator?.clerkId && (
+          <Link href={`/edit-post/${postData?._id}`}>
             <BorderColor sx={{ color: "white", cursor: "pointer" }} />
           </Link>
         )}
       </section>
       <p className="text-body-normal max-sm:text-small-semibold text-light-1">
-        {post?.caption}
+        {postData?.caption}
       </p>
       <Image
-        src={post?.postPhoto}
+        src={postData?.postPhoto}
         alt="post"
         width={200}
         height={150}
         className="w-full rounded-lg"
       />
       <p className="text-base-semibold max-sm:text-small-semibold text-purple-1">
-        {post?.tag}
+        {postData?.tag}
       </p>
       <div className="flex justify-between items-center">
         <p className="flex items-center gap-1" onClick={handleLike}>
@@ -128,15 +148,15 @@ const PostCard = ({ postData={}, update=() => {} }) => {
           ) : (
             <FavoriteBorder sx={{ color: "white" }} />
           )}
-          <span className="text-light-1">{post?.likes?.length || 0}</span>
+          <span className="text-light-1">{postData?.likes?.length || 0}</span>
         </p>
-        <p onClick={handleSave}>
+        {userId === postData?.creator?.clerkId ? <Delete className="text-red-500" onClick={handleDelete} /> : <p onClick={handleSave}>
           {isSaved ? (
             <Bookmark className="text-purple-1" />
           ) : (
             <BookmarkBorder sx={{ color: "white" }} />
           )}
-        </p>
+        </p>}
       </div>
     </article>
   );
