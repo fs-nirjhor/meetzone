@@ -37,7 +37,7 @@ const TopBar = () => {
         </SignedOut>
         <SignedIn>
           <div className="flex gap-4 items-center">
-            <SignOutButton>
+            <SignOutButton afterSignOutUrl="/sign-in">
               <Logout />
             </SignOutButton>
             <UserButton />

@@ -1,11 +1,9 @@
 import {
   SignInButton,
-  SignOutButton,
   SignedIn,
   SignedOut,
   UserButton,
 } from "@clerk/nextjs";
-import { Logout } from "@mui/icons-material";
 
 const ManageAccount = () => {
   return (
@@ -15,15 +13,9 @@ const ManageAccount = () => {
       </SignedOut>
       <SignedIn>
         <label className="flex gap-4 items-center mb-3">
-          <UserButton />
+          <UserButton afterSignOutUrl="/sign-in" />
           <p>Manage Account</p>
         </label>
-        <SignOutButton>
-          <div className="flex gap-4 items-center">
-            <Logout />
-            <p>Log Out</p>
-          </div>
-        </SignOutButton>
       </SignedIn>
     </section>
   );
