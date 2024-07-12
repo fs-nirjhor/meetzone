@@ -47,6 +47,8 @@ export default function ProfileCard({ profileData }) {
       }
     } catch (error) {
       toast.error(error.message);
+    } finally {
+      setIsLoading(false);
     }
   };
   

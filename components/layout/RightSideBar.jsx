@@ -47,7 +47,7 @@ const RightSideBar = () => {
      getAllUser()
      getUser();
     }
-  });
+  },[userId]);
 
   // users who are not following me 
   const suggestedUsers = allUser?.filter(user => currentUser?.following?.find(follow => follow?._id !== user?._id) && user?._id !== currentUser?._id) || [];

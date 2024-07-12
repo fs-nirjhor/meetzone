@@ -27,7 +27,7 @@ const People = () => {
 
   useEffect(() => {
     getUsers();
-  });
+  },[]);
 
   return isLoading ? (
     <Loading />

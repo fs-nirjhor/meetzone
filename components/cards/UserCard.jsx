@@ -45,7 +45,7 @@ export default function UserCard({ userData={}, update=() => {} }) {
           "Content-Type": "application/json",
         },
       });
-
+      
       if (response.ok) {
         update();
         setRefreshCount(refreshCount + 1);
@@ -54,6 +54,8 @@ export default function UserCard({ userData={}, update=() => {} }) {
       }
     } catch (error) {
       toast.error(error.message);
+    } finally {
+      setIsLoading(false);
     }
   };
 

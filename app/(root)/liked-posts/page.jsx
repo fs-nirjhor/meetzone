@@ -27,7 +27,7 @@ const LikedPosts = () => {
   };
     useEffect(() => {
       userId && getUser();
-    });
+    }),[userId];
 
     return !isLoaded || isLoading ? (
       <Loading />

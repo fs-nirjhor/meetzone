@@ -17,7 +17,7 @@ const HomePage = () => {
 
   useEffect(() => {
     getPosts();
-  });
+  }, []);
 
   return loading ? (
     <Loading />

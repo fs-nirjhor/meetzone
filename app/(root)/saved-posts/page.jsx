@@ -27,7 +27,7 @@ const SavedPost = () => {
   };
     useEffect(() => {
      userId && getUser();
-    });
+    },[userId]);
     return !isLoaded || isLoading ? (
       <Loading />
     ) : (
