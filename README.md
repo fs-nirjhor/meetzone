@@ -1,4 +1,4 @@
-# My Awesome Social Media App
+# [Meetzone](https://meetzone.vercel.app)
 
 Welcome to my social media app! This project was built using Next.js, Clerk Authentication, MongoDB, React-Hook-Form, Tailwind CSS, and React. It's a full-stack application that allows users to connect, share, and engage with each other.
 
