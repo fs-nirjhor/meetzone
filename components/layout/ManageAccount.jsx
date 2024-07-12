@@ -13,7 +13,7 @@ const ManageAccount = () => {
       </SignedOut>
       <SignedIn>
         <label className="flex gap-4 items-center mb-3">
-          <UserButton afterSignOutUrl="/sign-in" />
+          <UserButton afterSignOutUrl={process.env.NEXT_PUBLIC_CLERK_SIGN_IN_URL} />
           <p>Manage Account</p>
         </label>
       </SignedIn>

@@ -37,7 +37,7 @@ const TopBar = () => {
         </SignedOut>
         <SignedIn>
           <div className="flex gap-4 items-center">
-            <SignOutButton afterSignOutUrl="/sign-in">
+            <SignOutButton afterSignOutUrl={process.env.NEXT_PUBLIC_CLERK_SIGN_IN_URL}>
               <Logout />
             </SignOutButton>
             <UserButton />
